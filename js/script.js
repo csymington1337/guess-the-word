@@ -8,8 +8,8 @@ const message = document.querySelector(".message");
 const playAgainButton = document.querySelector(".play-again");
 
 let word = "magnolia";
-const guessedLetters = [];
-let remainingGuesses = 5;
+let guessedLetters = [];
+let remainingGuesses = 15;
 
 const getWord = async function () {
     const resp = await fetch(
@@ -110,8 +110,9 @@ const checkRemainingGuesses = function (guess) {
     }
 
     if (remainingGuesses === 0) {
-        message.innerText = `Oh noooo, you're out of guesses. The word was ${word}, better luck next time!`;
+        message.innerText = `Oh noooo, you're out of guesses. The word was ${word.toUpperCase()}, better luck next time!`;
         remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
+        startOver();
     } else if (remainingGuesses === 1) {
         remainingGuessesSpan.innerText = `${remainingGuesses} guess`;
     } else {
@@ -122,6 +123,28 @@ const checkRemainingGuesses = function (guess) {
 const checkIfWon = function () {
     if (word.toUpperCase() === wordInProgress.innerText) {
         message.classList.add("win");
-        message.innerHTML = `<p class="highlight">You guessed correct the word! Congrats!</p>`;
+        message.innerHTML = `<p class="highlight">You guessed the correct word! Woohoo!</p>`;
+        startOver();
     }
 };
+
+const startOver = function () {
+    guessButton.classList.add("hide");
+    remainingGuessesElement.classList.add("hide");
+    guessedLettersElement.classList.add("hide");
+    playAgainButton.classList.remove("hide");
+};
+
+playAgainButton.addEventListener("click", function () {
+    message.classList.remove("win");
+    message.innerText = "";
+    guessedLettersElement.innerText = "";
+    remainingGuesses = 15;
+    guessedLetters = [];
+    remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
+    guessButton.classList.remove("hide");
+    remainingGuessesElement.classList.remove("hide");
+    guessedLettersElement.classList.remove("hide");
+    playAgainButton.classList.add("hide");
+    getWord();
+});
