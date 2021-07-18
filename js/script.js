@@ -6,6 +6,9 @@ const remainingGuessesElement = document.querySelector(".remaining");
 const remainingGuessesSpan = document.querySelector("span");
 const message = document.querySelector(".message");
 const playAgainButton = document.querySelector(".play-again");
+const duckHuntDog = document.querySelector(".duck-hunt-dog");
+const happyDance = document.querySelector(".happy-dance");
+const guessFormElement = document.querySelector("#guess-label");
 
 let word = "magnolia";
 let guessedLetters = [];
@@ -64,7 +67,7 @@ const validateInput = function (input) {
 
 const makeGuess = function (guess) {
     guess = guess.toUpperCase();
-    if (guessedLetters.includes()) {
+    if (guessedLetters.includes(guess)) {
         message.innerText = "Is there an echo in here? You've already guessed that letter!";
     } else {
         guessedLetters.push(guess);
@@ -110,8 +113,13 @@ const checkRemainingGuesses = function (guess) {
     }
 
     if (remainingGuesses === 0) {
-        message.innerText = `Oh noooo, you're out of guesses. The word was ${word.toUpperCase()}, better luck next time!`;
-        remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
+        message.innerHTML = `<p>Game over, you lose!<br>The word was ${word.toUpperCase()}, better luck next time!</p>`;
+        duckHuntDog.classList.remove("hide");
+        remainingGuessesElement.classList.add("hide");
+        guessedLettersElement.classList.add("hide");
+        guessFormElement.classList.add("hide");
+        wordInProgress.classList.add("hide");
+        letterInput.classList.add("hide");
         startOver();
     } else if (remainingGuesses === 1) {
         remainingGuessesSpan.innerText = `${remainingGuesses} guess`;
@@ -124,6 +132,12 @@ const checkIfWon = function () {
     if (word.toUpperCase() === wordInProgress.innerText) {
         message.classList.add("win");
         message.innerHTML = `<p class="highlight">You guessed the correct word! Woohoo!</p>`;
+        happyDance.classList.remove("hide");
+        remainingGuessesElement.classList.add("hide");
+        guessedLettersElement.classList.add("hide");
+        guessFormElement.classList.add("hide");
+        wordInProgress.classList.add("hide");
+        letterInput.classList.add("hide");
         startOver();
     }
 };
@@ -143,8 +157,13 @@ playAgainButton.addEventListener("click", function () {
     guessedLetters = [];
     remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
     guessButton.classList.remove("hide");
+    duckHuntDog.classList.add("hide");
+    happyDance.classList.add("hide");
     remainingGuessesElement.classList.remove("hide");
     guessedLettersElement.classList.remove("hide");
     playAgainButton.classList.add("hide");
+    guessFormElement.classList.remove("hide");
+    wordInProgress.classList.remove("hide");
+    letterInput.classList.remove("hide");
     getWord();
 });
