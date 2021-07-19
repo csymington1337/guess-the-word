@@ -12,7 +12,7 @@ const guessFormElement = document.querySelector("#guess-label");
 
 let word = "magnolia";
 let guessedLetters = [];
-let remainingGuesses = 15;
+let remainingGuesses = 10;
 
 const getWord = async function () {
     const resp = await fetch(
@@ -153,7 +153,7 @@ playAgainButton.addEventListener("click", function () {
     message.classList.remove("win");
     message.innerText = "";
     guessedLettersElement.innerText = "";
-    remainingGuesses = 15;
+    remainingGuesses = 10;
     guessedLetters = [];
     remainingGuessesSpan.innerText = `${remainingGuesses} guesses`;
     guessButton.classList.remove("hide");
